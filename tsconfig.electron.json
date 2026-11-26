@@ -4,7 +4,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "dist-electron",
-    "rootDir": "src",
+    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -13,15 +13,17 @@
     "resolveJsonModule": true
   },
   "include": [
-    "src/main/**/*",
-    "src/preload/**/*",
-    "src/server/**/*",
-    "src/shared/**/*",
-    "src/test/**/*"
+    "server/core/**/*",
+    "server/electron/**/*",
+    "client/**/*",
+    "shared/**/*",
+    "test/**/*"
   ],
   "exclude": [
-    "src/renderer/**/*",
-    "src/app/**/*",
-    "node_modules"
+    "server/desktop/**/*",
+    "src/**/*",
+    "node_modules",
+    "dist",
+    "dist-electron"
   ]
 }

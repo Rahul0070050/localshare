@@ -19,23 +19,24 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*", "./*"],
+      "@shared/*": ["./shared/*"]
     }
   },
   "include": [
     "next-env.d.ts",
     "src/app/**/*",
-    "src/components/**/*",
-    "src/lib/**/*",
-    "src/shared/**/*",
+    "server/desktop/**/*",
+    "shared/**/*",
     ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "dist-electron",
-    "src/server/**/*",
-    "src/main/**/*",
-    "src/preload/**/*",
-    "src/test/**/*"
+    "dist",
+    "server/core/**/*",
+    "server/electron/**/*",
+    "client/**/*",
+    "test/**/*"
   ]
 }

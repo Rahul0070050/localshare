@@ -4,7 +4,7 @@
   "description": "Cross-Platform Local Wi-Fi File Sharing Desktop Application",
   "author": "LocalShare Team",
   "license": "MIT",
-  "main": "dist-electron/main/index.js",
+  "main": "dist-electron/server/electron/main.js",
   "scripts": {
     "dev:renderer": "next dev -p 3456",
     "dev:electron": "tsc -p tsconfig.electron.json --watch",
@@ -15,7 +15,8 @@
     "dist": "npm run build && electron-builder",
     "dist:win": "npm run build && electron-builder --win",
     "dist:linux": "npm run build && electron-builder --linux",
-    "test": "node dist-electron/test/test-server.js"
+    "test": "node dist-electron/test/test-server.js",
+    "test:integration": "node dist-electron/test/test-integration.js"
   },
   "dependencies": {
     "clsx": "^2.1.1",

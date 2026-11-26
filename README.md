@@ -35,37 +35,59 @@
 
 ---
 
-## Architecture
+## Project Architecture & Directory Layout
 
-LocalShare is architected with strict process isolation and security boundaries:
+The codebase follows a clean, modular software architecture separating the **Client UI** (web-based file explorer for connected devices), the **Server** (desktop host application & local HTTP sharing engine), and **Shared** contracts:
 
 ```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        LocalShare Desktop App                          │
-├──────────────────────────────────┬─────────────────────────────────────┤
-│      Electron Main Process       │         Next.js Renderer UI         │
-│  - App lifecycle & System Tray   │  - Linear/Raycast modern dashboard  │
-│  - Persistent ConfigStore        │  - Folder Manager & Stats Cards     │
-│  - Network interface detector    │  - QR Code Modal & Settings         │
-│  - IPC dispatcher                │  - Safe typed IPC bridge            │
-└────────────────┬─────────────────┴──────────────────▲──────────────────┘
-                 │                                    │ Preload (contextBridge)
-                 ▼                                    │
-┌──────────────────────────────────┐                  │
-│       Local Sharing Server       │──────────────────┘
-│  - Native Node.js HTTP server    │
-│  - Path traversal & symlink gate │
-│  - Range streaming (HTTP 206)    │
-│  - Visitor & device tracker      │
-│  - 100% offline Web Explorer SPA │
-└────────────────┬─────────────────┘
-                 │
-                 ▼ Local Wi-Fi Network (0.0.0.0:3000)
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Connected Devices (Phone, Tablet, PC)                │
-│  - Opens http://192.168.x.x:3000 in Chrome / Safari / Firefox          │
-│  - Zero installation required on client devices                        │
-└────────────────────────────────────────────────────────────────────────┘
+fileshare/
+├── client/                     # Client Web Application (Responsive browser file explorer)
+│   ├── src/
+│   │   ├── components/         # Modular Client UI components
+│   │   │   ├── Header.ts       # Glassmorphism header, brand, live connection badge, theme switch
+│   │   │   ├── Breadcrumbs.ts  # Breadcrumb trail, back button, path jump
+│   │   │   ├── SearchFilter.ts # Live search, category chips, sort dropdown, view mode toggle
+│   │   │   ├── FileGrid.ts     # Grid cards with category badges, thumbnails, actions
+│   │   │   ├── FileList.ts     # Compact tabular list view with sortable columns
+│   │   │   ├── PreviewModal.ts # Rich media previewer (image zoom, video/audio seek, PDF, code)
+│   │   │   ├── PasswordGate.ts # Security gate lock screen with session auth
+│   │   │   └── EmptyState.ts   # Empty folder / no search results state
+│   │   ├── styles/
+│   │   │   ├── theme.ts        # Embedded design tokens, dark/light themes, animations
+│   │   │   └── theme.css       # Client UI stylesheet
+│   │   ├── state/
+│   │   │   └── client-state.ts # Client state management, caching, history, sort/filter logic
+│   │   └── app.ts              # Client application runtime & event dispatcher
+│   └── builder.ts              # Bundles and optimizes the client app for 100% offline serving
+│
+├── server/                     # Server Application & Host Infrastructure
+│   ├── desktop/                # Desktop Server UI (Next.js / React Linear-style Dashboard)
+│   │   ├── app/                # Next.js App Router (Dashboard layout & pages)
+│   │   └── components/         # Desktop UI components (ServerCard, FolderManager, Stats, Devices, Settings, QR)
+│   ├── electron/               # Electron Main Process & Native Bridges
+│   │   ├── main.ts             # Window lifecycle, protocol handler, tray
+│   │   ├── preload.ts          # Secure typed IPC bridge
+│   │   ├── ipc.ts              # IPC handlers & event broadcasters
+│   │   ├── store.ts            # Persistent configuration store
+│   │   ├── network.ts          # Multi-adapter local IP detection
+│   │   └── tray.ts             # System tray menu and status
+│   └── core/                   # Local HTTP File Sharing Server & Security Engine
+│       ├── server.ts           # HTTP server, routing & streaming
+│       ├── security.ts         # Traversal defense, symlink boundary checks
+│       ├── tracker.ts          # Connected device tracking & analytics
+│       └── client-provider.ts  # Serves the modular Client UI application
+│
+├── shared/                     # Shared domain types, contracts & constants
+│   └── types.ts                # SharedFolder, ServerSettings, ServerStatus, ConnectedDevice, FileItem, BrowseResult
+│
+├── test/                       # Automated Test Suites
+│   ├── test-server.ts          # Unit & Security tests (10/10 tests)
+│   └── test-integration.ts     # End-to-end integration tests
+│
+└── dist/                       # Packaged Desktop Executables & Installers
+    ├── LocalShare 1.0.0.exe    # Standalone portable Windows executable
+    ├── LocalShare Setup 1.0.0.exe # Windows NSIS installer
+    └── win-unpacked/           # Unpacked binary directory
 ```
 
 ---

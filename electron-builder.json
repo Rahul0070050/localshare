@@ -3,7 +3,7 @@
   "productName": "LocalShare",
   "copyright": "Copyright © 2026 LocalShare Team",
   "directories": {
-    "output": "dist",
+    "output": "release",
     "buildResources": "build"
   },
   "files": [
@@ -16,6 +16,9 @@
     "!**/node_modules/.bin"
   ],
   "asar": true,
+  "asarUnpack": [
+    "out/**/*"
+  ],
   "win": {
     "target": [
       {
