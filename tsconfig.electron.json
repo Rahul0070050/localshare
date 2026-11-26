@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "dist-electron",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src/main/**/*",
+    "src/preload/**/*",
+    "src/server/**/*",
+    "src/shared/**/*",
+    "src/test/**/*"
+  ],
+  "exclude": [
+    "src/renderer/**/*",
+    "src/app/**/*",
+    "node_modules"
+  ]
+}

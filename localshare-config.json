@@ -1,0 +1,11 @@
+{
+  "folders": [],
+  "settings": {
+    "port": 3000,
+    "theme": "dark",
+    "passwordProtection": false,
+    "autoStartSharing": false,
+    "minimizeToTray": false,
+    "launchAtStartup": false
+  }
+}
