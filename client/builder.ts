@@ -1,12 +1,76 @@
-import { renderHeader } from './src/components/Header';
-import { renderSearchFilter } from './src/components/SearchFilter';
-import { renderPreviewModal } from './src/components/PreviewModal';
-import { renderPasswordGate } from './src/components/PasswordGate';
+import path from 'path';
+import fs from 'fs';
 import { THEME_CSS } from './src/styles/theme';
-import { getClientScript } from './src/app';
+
+let cachedBundleJs: string | null = null;
 
 /**
- * Builds the complete standalone Client Web Application HTML.
+ * Resolves the Preact client JS bundle.
+ * Prefers the pre-built bundle.js, falling back to dynamic esbuild.
+ */
+export function getClientBundleJs(): string {
+  // 1. Look for pre-built bundle.js in various resolution paths
+  const possibleBundlePaths = [
+    path.join(__dirname, 'bundle.js'),
+    path.join(__dirname, '../../client/bundle.js'),
+    path.join(process.cwd(), 'client/bundle.js'),
+    path.join(process.cwd(), 'dist-electron/client/bundle.js'),
+  ];
+
+  for (const bPath of possibleBundlePaths) {
+    if (fs.existsSync(bPath)) {
+      return fs.readFileSync(bPath, 'utf8');
+    }
+  }
+
+  if (cachedBundleJs) {
+    return cachedBundleJs;
+  }
+
+  // 2. Fallback: dynamically compile with esbuild if running in dev/test
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const esbuild = require('esbuild');
+    const possibleEntryPaths = [
+      path.join(__dirname, 'src/index.tsx'),
+      path.join(__dirname, '../../client/src/index.tsx'),
+      path.join(process.cwd(), 'client/src/index.tsx'),
+    ];
+
+    let entryPoint = '';
+    for (const ePath of possibleEntryPaths) {
+      if (fs.existsSync(ePath)) {
+        entryPoint = ePath;
+        break;
+      }
+    }
+
+    if (entryPoint) {
+      const result = esbuild.buildSync({
+        entryPoints: [entryPoint],
+        bundle: true,
+        minify: true,
+        format: 'iife',
+        write: false,
+        jsxFactory: 'h',
+        jsxFragment: 'Fragment',
+        target: ['es2020', 'chrome80', 'safari13', 'edge80', 'firefox78'],
+      });
+
+      if (result.outputFiles && result.outputFiles.length > 0) {
+        cachedBundleJs = result.outputFiles[0].text;
+        return cachedBundleJs || '';
+      }
+    }
+  } catch (err) {
+    console.warn('[builder] Dynamic esbuild compilation failed, using fallback:', err);
+  }
+
+  return cachedBundleJs || '';
+}
+
+/**
+ * Builds the complete standalone Preact Client Web Application HTML.
  * Fully offline, zero CDN dependencies, responsive mobile & desktop layout.
  */
 export function buildClientAppHtml(options: {
@@ -14,12 +78,7 @@ export function buildClientAppHtml(options: {
   hasPassword?: boolean;
 }): string {
   const title = options.title || 'LocalShare';
-
-  const headerHtml = renderHeader();
-  const searchFilterHtml = renderSearchFilter();
-  const previewModalHtml = renderPreviewModal();
-  const passwordGateHtml = renderPasswordGate();
-  const clientScript = getClientScript();
+  const bundleJs = getClientBundleJs();
 
   return `<!DOCTYPE html>
 <html lang="en" data-theme="dark">
@@ -33,33 +92,9 @@ ${THEME_CSS}
   </style>
 </head>
 <body>
-  <!-- Header -->
-  ${headerHtml}
-
-  <!-- Main Container -->
-  <main class="client-main">
-    <!-- Password Protection Gate -->
-    ${passwordGateHtml}
-
-    <!-- Main Explorer View -->
-    <div id="explorerViewSection">
-      <!-- Breadcrumbs Bar -->
-      <div id="breadcrumbsSlot"></div>
-
-      <!-- Toolbar: Search, Category Chips, Sort & View Switches -->
-      ${searchFilterHtml}
-
-      <!-- Files and Folders Viewport -->
-      <div id="filesViewport"></div>
-    </div>
-  </main>
-
-  <!-- Media Preview Modal -->
-  ${previewModalHtml}
-
-  <!-- Client Application Script -->
+  <div id="root"></div>
   <script>
-${clientScript}
+${bundleJs}
   </script>
 </body>
 </html>`;

@@ -115,11 +115,11 @@ export function ServerCard({
 
               <button
                 onClick={onOpenBrowser}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700/80 border border-slate-700 text-xs font-semibold text-slate-200 transition"
-                title="Preview in Browser"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-xs font-bold text-white shadow-lg shadow-blue-600/30 hover:shadow-blue-500/50 transition cursor-pointer"
+                title="Open Web File Explorer and Media Player in your browser"
               >
-                <ExternalLink className="w-4 h-4 text-blue-400" />
-                <span>Open in Browser</span>
+                <ExternalLink className="w-4 h-4 text-white" />
+                <span>Open in Browser (File Explorer & Player)</span>
               </button>
             </div>
           )}
