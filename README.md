@@ -98,7 +98,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## Contact / Author
 
-- **Author**: [Your Name]
-- **GitHub**: [[Your GitHub Profile](https://github.com/[your-username])]
-- **LinkedIn**: [[Your LinkedIn Profile](https://linkedin.com/in/[your-username])]
-- **Project Link**: [[Repository Link](https://github.com/[your-username]/[project-name])]
+- **Author**: Rahul O R
+- **GitHub**: [[Your GitHub Profile](https://github.com/rahul0070050)]
+- **LinkedIn**: [[Your LinkedIn Profile](https://www.linkedin.com/in/rahul-or/)]
