@@ -4,6 +4,10 @@
   "description": "Cross-Platform Local Wi-Fi File Sharing Desktop Application",
   "author": "LocalShare Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rahul0070050/localshare.git"
+  },
   "main": "dist-electron/server/electron/main.js",
   "scripts": {
     "clean:processes": "node scripts/clean-processes.js",
