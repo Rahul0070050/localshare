@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Share2, Settings, ShieldCheck, Wifi } from 'lucide-react';
+import { Share2, Settings, Wifi, Radio } from 'lucide-react';
 
 interface HeaderProps {
   version: string;
@@ -11,39 +11,48 @@ interface HeaderProps {
 
 export function Header({ version, isSharing, onOpenSettings }: HeaderProps) {
   return (
-    <header className="h-14 border-b border-slate-800/80 bg-[#0c121e]/90 backdrop-blur-md px-5 flex items-center justify-between drag-region sticky top-0 z-30 select-none">
-      {/* Brand */}
+    <header className="h-14 border-b border-slate-800/80 bg-[#090d16]/95 backdrop-blur-md px-6 flex items-center justify-between drag-region sticky top-0 z-30 select-none">
+      {/* Brand & App Info */}
       <div className="flex items-center gap-3 no-drag">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-blue-600/30">
           <Share2 className="w-4 h-4 stroke-[2.4]" />
         </div>
         <div className="flex items-center gap-2">
-          <span className="font-bold text-base tracking-tight text-white">LocalShare</span>
-          <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700/60">
+          <span className="font-bold text-sm tracking-tight text-white">LocalShare</span>
+          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-400 border border-slate-700/50">
             v{version || '1.0.0'}
           </span>
         </div>
       </div>
 
-      {/* Center Status Pill */}
-      <div className="no-drag flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-xs text-slate-300">
-        <Wifi className={`w-3.5 h-3.5 ${isSharing ? 'text-emerald-400 animate-pulse' : 'text-slate-500'}`} />
-        <span>{isSharing ? 'Local Wi-Fi Server Active' : 'Server Offline'}</span>
+      {/* Center Live Status Indicator */}
+      <div className="no-drag hidden sm:flex items-center gap-2.5 px-3.5 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-xs text-slate-300">
         <span
-          className={`w-2 h-2 rounded-full ${
-            isSharing ? 'bg-emerald-500 shadow-sm shadow-emerald-500/50' : 'bg-slate-600'
+          className={`w-2 h-2 rounded-full transition-all duration-300 ${
+            isSharing
+              ? 'bg-emerald-500 shadow-sm shadow-emerald-500/80 animate-pulse'
+              : 'bg-slate-600'
           }`}
         />
+        <span className="font-medium text-[11px] tracking-wide uppercase text-slate-400">
+          {isSharing ? 'Local Wi-Fi Server Active' : 'Server Offline'}
+        </span>
+        {isSharing && (
+          <span className="flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            <Radio className="w-2.5 h-2.5 animate-spin" />
+            LIVE
+          </span>
+        )}
       </div>
 
-      {/* Right Controls */}
-      <div className="flex items-center gap-2 no-drag">
+      {/* Right Controls - Extra right margin for Windows window controls */}
+      <div className="flex items-center gap-2.5 no-drag pr-32">
         <button
           onClick={onOpenSettings}
-          className="p-2 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 text-slate-300 hover:text-white transition-colors duration-150 flex items-center gap-1.5 text-xs font-medium"
+          className="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 text-slate-300 hover:text-white transition text-xs font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
           title="Settings & Configuration"
         >
-          <Settings className="w-4 h-4" />
+          <Settings className="w-3.5 h-3.5" />
           <span>Settings</span>
         </button>
       </div>

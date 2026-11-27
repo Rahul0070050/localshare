@@ -198,7 +198,7 @@ export default function DesktopDashboard() {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-5xl w-full mx-auto p-5 md:p-7 space-y-6">
+      <main className="flex-1 max-w-[1440px] w-full mx-auto px-6 lg:px-8 py-6 space-y-6">
         {/* Main Server Control Card */}
         <ServerCard
           status={status}
@@ -211,18 +211,25 @@ export default function DesktopDashboard() {
         {/* Stats Grid */}
         <StatsOverview folders={folders} status={status} />
 
-        {/* Folder Management Section */}
-        <FolderManager
-          folders={folders}
-          onAddFolder={handleAddFolder}
-          onRemoveFolder={handleRemoveFolder}
-          onToggleFolder={handleToggleFolder}
-          onRenameFolder={handleRenameFolder}
-          onOpenFolder={handleOpenFolder}
-        />
+        {/* 2-Column Responsive Desktop Layout */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+          {/* Left Column: Folder Management Hub */}
+          <div className="xl:col-span-7 space-y-6">
+            <FolderManager
+              folders={folders}
+              onAddFolder={handleAddFolder}
+              onRemoveFolder={handleRemoveFolder}
+              onToggleFolder={handleToggleFolder}
+              onRenameFolder={handleRenameFolder}
+              onOpenFolder={handleOpenFolder}
+            />
+          </div>
 
-        {/* Connected Devices & Analytics Section */}
-        <DevicesList devices={devices} />
+          {/* Right Column: Connected Devices & Real-Time Activity */}
+          <div className="xl:col-span-5 space-y-6">
+            <DevicesList devices={devices} />
+          </div>
+        </div>
       </main>
 
       {/* Modals */}
