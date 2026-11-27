@@ -43,6 +43,7 @@
     "shortcutName": "LocalShare"
   },
   "linux": {
+    "maintainer": "Rahul <contact@localshare.app>",
     "target": [
       {
         "target": "AppImage",
