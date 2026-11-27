@@ -8,19 +8,19 @@ LocalShare turns your computer into a secure local file server. It lets you shar
 
 ## Features
 
-- **100% Offline Sharing**: Works over your local Wi-Fi network without internet or cloud accounts.
-- **Selective Folder Sharing**: Only share the specific folders you choose.
-- **Desktop Media Player**: Watch videos directly in your browser with seek controls, playback speed, subtitles, and picture-in-picture mode.
-- **QR Code Access**: Scan a QR code on your phone to instantly open shared files.
+- **100% Offline Sharing**: Works entirely over your local Wi-Fi network with zero cloud or internet dependencies.
+- **Selective Folder Sharing**: Only share the specific folders you choose from your computer.
+- **In-Browser Media Player**: Stream videos directly with seek controls, playback speed, subtitles, and picture-in-picture mode.
+- **QR Code Access**: Scan a QR code on your mobile device to open shared files instantly.
 - **Fast HTTP 206 Streaming**: Smooth seeking and instant playback for large video and audio files.
-- **Safe & Secure**: Read-only protection, path-traversal defense, and optional password access.
-- **Device Tracking**: See which local devices are connected in real time.
+- **Safe & Secure**: Read-only protection, directory traversal defense, and optional passcode access.
+- **Live Device Tracking**: See connected devices and visitor activity in real time.
 
 ## Tech Stack
 
 - **Desktop Host**: Electron, Next.js, React, Tailwind CSS
 - **Web Client**: Preact, TypeScript, esbuild
-- **Server Engine**: Node.js HTTP server, Range streaming
+- **Server Engine**: Node.js HTTP Server, HTTP 206 Range Streaming
 - **Language**: TypeScript
 
 ## Getting Started
@@ -28,7 +28,7 @@ LocalShare turns your computer into a secure local file server. It lets you shar
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) (version 18 or higher)
-- npm (comes with Node.js)
+- npm (included with Node.js)
 
 ### 1. Clone the repository
 
@@ -64,24 +64,27 @@ npm run dist:win
 ## Usage
 
 1. Open **LocalShare** on your computer.
-2. Click **Add Folder** and select the folder you want to share.
-3. Click **Start Sharing**.
-4. Open the displayed link (e.g., `http://192.168.1.5:3000`) or scan the QR code from another device on the same Wi-Fi.
+2. Click **Add Folder** to choose a directory you want to share.
+3. Click **Start Sharing** to activate the local server.
+4. Open the sharing URL (e.g., `http://192.168.1.5:3000`) or scan the QR code from another device on the same Wi-Fi.
 5. Browse files, download documents, or click **Preview** on any video to stream it.
 
 ## Screenshots / Demo
 
 ### Desktop Dashboard
-![Desktop Dashboard]([placeholder-desktop-screenshot.png])
+![Desktop Dashboard](public/software-ui.png)
 
-### Web Client & Video Player
-![Web Client Video Player]([placeholder-client-screenshot.png])
+### Web Client & File Explorer
+![Web Client View](public/client-view.png)
 
-- **Live Demo**: [None / Local network only]
+### Settings & Preferences
+![Settings View](public/settings-view.png)
+
+- **Live Demo**: [None / Local network application]
 
 ## Contributing
 
-Contributions are welcome! If you have suggestions or find bugs:
+Contributions are welcome! If you want to contribute:
 
 1. Fork the repository.
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
